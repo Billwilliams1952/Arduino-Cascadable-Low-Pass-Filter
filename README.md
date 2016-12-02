@@ -1,3 +1,20 @@
 # Low-Pass-Filter
 Simple low pass filter
-https://github.com/Billwilliams1952/KY-040-Encoder-Library---Arduino
+
+##Synopsis
+
+##API
+
+	LPF ( float bandWidthInHz, float sampleTimeInSec );
+
+	LPF ( float alpha );
+
+	float GetLastValue ( void );
+	
+	float NextValue ( float currentValue );
+
+	float NextValue ( float currentValue, float sampleTimeInSec );
+  
+##License
+
+
