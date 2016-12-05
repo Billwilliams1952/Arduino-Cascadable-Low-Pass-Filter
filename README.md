@@ -21,7 +21,7 @@ Rewriting
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
-The new output will apporach the input in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins toα roll off at 20 dB per decade or 6dB per octave -- check this??
+The new output will apporach the input in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave -- check this??
 
 ##API
 	/* Create instance given a bandwidth and sampletime*/
@@ -29,7 +29,7 @@ The new output will apporach the input in ~ 5 RCTime. So for a specified bandwid
 
 	/* Create instance using a value of alpha */
 	LPF ( float alpha );
-α
+
 	/* Return the last value from the LPF */
 	float GetLastValue ( void );
 	
