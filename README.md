@@ -3,16 +3,40 @@ Simple low pass filter
 
 ##Synopsis
 
-##API
+Return RC low-pass filter output samples, given input samples, time interval dt, and time constant RC. From sampling theory:
 
+	RC = 1 / (2 * π * BW)
+	α = dt / (RC + dt)
+	y[0] := x[0]
+	for i from 1 to n
+		y[i] = α * x[i] + (1-α) * y[i-1]
+
+Refactoring
+
+	for i from 1 to n
+	y[i] = y[i-1] + α * (x[i] - y[i-1])
+
+Rewriting
+
+	NextValue = LastValue + α * (CurrentValue - LastValue)
+	LastValue = NextValue
+	
+The new output will apporach the input in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave -- check this??
+
+##API
+	/* Create instance given a bandwidth and sampletime*/
 	LPF ( float bandWidthInHz, float sampleTimeInSec );
 
+	/* Create instance using a value of alpha */
 	LPF ( float alpha );
 
+	/* Return the last value from the LPF */
 	float GetLastValue ( void );
 	
+	/* Return the next value from the LPF */
 	float NextValue ( float currentValue );
 
+	/* Return the next value from the LPF given a new sampletime */
 	float NextValue ( float currentValue, float sampleTimeInSec );
   
 ## Tests
