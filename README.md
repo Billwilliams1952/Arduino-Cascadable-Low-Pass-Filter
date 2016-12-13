@@ -1,5 +1,6 @@
 # Low-Pass-Filter
-Simple low pass filter
+
+Simple low pass filter based on sampling theory.  This library allows the user to specify a Filter Bandwidth in Hertz and a Sampling Rate in seconds.
 
 ##Synopsis
 
@@ -21,7 +22,7 @@ Rewriting
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
-The new output will apporach the input in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave -- check this??
+The new output will approach the input (within 1 %) in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle to within 1% in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave -- check this??
 
 ##API
 	/* Create instance given a bandwidth and sampletime*/
@@ -41,7 +42,7 @@ The new output will apporach the input in ~ 5 RCTime. So for a specified bandwid
   
 ## Tests
 
-Use the **TBD*α* example sketch to verify correct operation. 
+Use the **TBD** example sketch to verify correct operation. 
 
 ## License
 
