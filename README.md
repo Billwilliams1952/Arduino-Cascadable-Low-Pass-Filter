@@ -22,7 +22,9 @@ Rewriting
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
-The new output will approach the input (within 1 %) in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle to within 1% in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave -- check this??
+The new output will approach the input (within 1 %) in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle to within 1% in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave. ![alt tag](https://cloud.githubusercontent.com/assets/3778024/21202816/901c5764-c215-11e6-9895-a39fdd9bd3f0.png)
+
+Thanks https://en.wikipedia.org/wiki/Roll-off
 
 ##API
 	/* Create instance given a bandwidth and sampletime*/
