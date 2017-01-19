@@ -22,7 +22,9 @@ Rewriting
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
-The new output will approach the input (within 1 %) in ~ 5 RCTime. So for a specified bandwidth of 10 Hz, with a step input applied, the output will settle to within 1% in ~0.08 seconds. The 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade or 6dB per octave.
+The new output will approach the input in ~ 5 RCTime constants. 
+
+For example: With a specified bandwidth of 10 Hz, and a step input applied, the output will settle to the step input value in ~0.08 seconds. 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade (10 Hz, 100Hz, 1000Hz,...) or 6dB per octave (10Hz, 20Hz, 40Hz, 80Hz...)
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/21202816/901c5764-c215-11e6-9895-a39fdd9bd3f0.png)
 
