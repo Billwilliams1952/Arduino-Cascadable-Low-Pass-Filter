@@ -29,19 +29,23 @@ The new output will approach the input (within 1 %) in ~ 5 RCTime. So for a spec
 Thanks https://en.wikipedia.org/wiki/Roll-off
 
 ##API
-	/* Create instance given a bandwidth and sampletime*/
-	LPF ( float bandWidthInHz, float sampleTimeInSec );
+	// Specify a LPF based off bandWidth and sampleTime
+	LPF ( float bandWidthInHz, float sampleTimeInSec, float initialValue =  0.0 );
 
-	/* Create instance using a value of alpha */
-	LPF ( float alpha );
+	// Simple case where you just want a filter without worring about
+	// sample rates or bandwidths.
+	LPF ( float alpha, float initialValue =  0.0 );
 
-	/* Return the last value from the LPF */
+	// Reset filter output to initialValue
+	void Reset ( float initialValue =  0.0 );
+
+	// Return last value from the filter.
 	float GetLastValue ( void );
-	
-	/* Return the next value from the LPF */
+
+	// Get next value from the filter based on the input (current) value
 	float NextValue ( float currentValue );
 
-	/* Return the next value from the LPF given a new sampletime */
+	// Use for AGC and other responses where the sample time changes.
 	float NextValue ( float currentValue, float sampleTimeInSec );
   
 ## Tests
