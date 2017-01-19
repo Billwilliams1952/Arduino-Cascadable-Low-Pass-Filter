@@ -40,15 +40,24 @@ class LPF {
 	//       y[i] = y[i-1] + α * (x[i] - y[i-1])
 
 	public:
-	
-	LPF ( float bandWidthInHz, float sampleTimeInSec );
 
-	LPF ( float alpha );
+	// Specify a LPF based off bandWidth and sampleTime
+	LPF ( float bandWidthInHz, float sampleTimeInSec, float initialValue =  0.0 );
 
+	// Simple case where you just want a filter without worring about
+	// sample rates or bandwidths.
+	LPF ( float alpha, float initialValue =  0.0 );
+
+	// Reset filter output to initialValue
+	void Reset ( float initialValue =  0.0 );
+
+	// Return last value from the filter.
 	float GetLastValue ( void );
-	
+
+	// Get next value from the filter based on the input (current) value
 	float NextValue ( float currentValue );
 
+	// Use for AGC and other responses where the sample time changes.
 	float NextValue ( float currentValue, float sampleTimeInSec );
 	
 	private:
