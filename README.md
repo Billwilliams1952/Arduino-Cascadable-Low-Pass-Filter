@@ -52,7 +52,7 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
   
 ## Tests
 
-Use the **TBD** example sketch to verify correct operation. 
+The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of the LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Risetime / falltime is ~ 0.35 / BANDWIDTH_HZ.  The second example plots the response of the LPF to an input containing multiple sine wave signals and 'noise'. This example also demonstrates how to cascade LPFs together to increase the filter response. 
 
 ## License
 
