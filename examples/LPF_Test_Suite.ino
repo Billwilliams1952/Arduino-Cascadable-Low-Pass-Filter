@@ -72,12 +72,12 @@ void loop() {
 void PlotSineWaveWithNoiseResponse ( void ) {
   
     static unsigned int dt = 0;
-    float inputSignal, omega_t = 2.0 * PI * dt * SAMPLE_TIME_SEC;
+    float inputSignal, twoPiDt = 2.0 * PI * dt * SAMPLE_TIME_SEC;
 
-    inputSignal = 5.0 * sin(SIGNAL_FREQUENCY_HZ * omega_t) + 
+    inputSignal = 5.0 * sin(SIGNAL_FREQUENCY_HZ * twoPiDt) + 
                   /* now add some higher order signals to filter out */
-                  2.0 * sin(BANDWIDTH_HZ * 10 * omega_t) +
-                  1.0 * sin(BANDWIDTH_HZ * 20 * omega_t) +
+                  2.0 * sin(BANDWIDTH_HZ * 10 * twoPiDt) +
+                  1.0 * sin(BANDWIDTH_HZ * 20 * twoPiDt) +
                   /* some 'noise' */ (float)random(-100, 100) / 100.0;
     dt++;
 
