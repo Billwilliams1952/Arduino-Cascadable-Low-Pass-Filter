@@ -14,6 +14,7 @@ LPF	KEYWORD1
 Reset	KEYWORD2
 GetLastValue	KEYWORD2
 NextValue	KEYWORD2
+GetFilterGainInDB	KEYWORD2
 
 #######################################
 # Literals
