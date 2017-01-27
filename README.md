@@ -2,7 +2,7 @@
 
 Simple low pass filter (LPF) based on sampling theory.  
 
-This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together.
+This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional 'cascades' parameter.
 
 If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 0.0 is no filtering.
 
@@ -49,7 +49,7 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
   
 ## Tests
 
-The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Note that risetime / falltime is ~ 0.35 / BANDWIDTH_HZ for a single cascade LPF.  
+The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Note that risetime or falltime is ~ 0.35 / bandWidthInHzOrAlpha for a single cascade LPF. 
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22360065/2d42c230-e412-11e6-9cef-5dc5463204e3.png)
 
