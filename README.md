@@ -1,6 +1,10 @@
 # Low-Pass-Filter
 
-Simple low pass filter based on sampling theory.  This library allows the user to specify a Filter Bandwidth in Hertz and a Sampling Rate in seconds.
+Simple low pass filter (LPF) based on sampling theory.  
+
+This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together.
+
+If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 0.0 is no filtering.
 
 ##Synopsis
 
