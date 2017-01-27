@@ -4,7 +4,7 @@ Simple low pass filter (LPF) based on sampling theory.
 
 This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional 'cascades' parameter.
 
-If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 0.0 is no filtering.
+If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 1.0 is no filtering (follow the input), 0.0 is max filtering (the output stays at the initial value).
 
 ##Synopsis
 
