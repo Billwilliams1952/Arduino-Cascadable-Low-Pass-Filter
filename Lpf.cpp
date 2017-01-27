@@ -60,7 +60,7 @@
  */
 LPF :: LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades ) {
 	if ( isInBandwidth ) {
-		alpha = 0.0;
+		alpha = 1.0;
 		RCTime = bandWidthInHzOrAlpha <= 0 ?
 					0.0 : 1.0 / (TWO_PI * bandWidthInHzOrAlpha);
 	} else {
