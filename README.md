@@ -30,6 +30,10 @@ The new output will approach the input in ~ 5 RCTime constants.
 
 For example: With a specified bandwidth of 10 Hz, and a step input applied, the output will settle to the step input value in ~0.08 seconds. 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade (10 Hz, 100Hz, 1000Hz,...) or 6dB per octave (10Hz, 20Hz, 40Hz, 80Hz...)
 
+When you cascade the LPF, the rolloff basically doubles for each added stage.  For example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz.
+
+The output of any cascade
+
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/21202816/901c5764-c215-11e6-9895-a39fdd9bd3f0.png)
 
 Thanks https://en.wikipedia.org/wiki/Roll-off
@@ -46,6 +50,9 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
 
 	// Get next value from the filter based on the input (current) value
 	float NextValue ( float currentValue );
+	
+	// Return the gain of the filter at a particular frequency
+	double GetFilterGainInDB ( double frequencyInHz );
   
 ## Tests
 
