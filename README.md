@@ -2,7 +2,7 @@
 
 Simple low pass filter (LPF) based on sampling theory.  
 
-This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional 'cascades' parameter.
+This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional 'cascades' parameter, increasing the rolloff at the output.
 
 If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 1.0 is no filtering (follow the input), 0.0 is max filtering (the output stays at the initial value).
 
@@ -26,17 +26,14 @@ Rewriting
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
-The new output will approach the input in ~ 5 RCTime constants. 
+For a single LPF, the new output will approach the input in ~ 5 RCTime constants. 
 
 For example: With a specified bandwidth of 10 Hz, and a step input applied, the output will settle to the step input value in ~0.08 seconds. 10 Hz is the 3dB point of the filter, where input changes at a rate greater than this frequency begins to roll off at 20 dB per decade (10 Hz, 100Hz, 1000Hz,...) or 6dB per octave (10Hz, 20Hz, 40Hz, 80Hz...)
-
-When you cascade the LPF, the rolloff basically doubles for each added stage.  For example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz.
-
-The output of any cascade
-
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/21202816/901c5764-c215-11e6-9895-a39fdd9bd3f0.png)
-
 Thanks https://en.wikipedia.org/wiki/Roll-off
+
+When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz. The gain at the output of the last cascade for any input frequency can be calculated by the equation: 
+![alt tag](https://cloud.githubusercontent.com/assets/3778024/22388677/4d7d7082-e4a7-11e6-825d-a0b118c8dc41.png)
 
 ##API
 	// Specify a LPF based off bandWidth, or as fixed alpha.
