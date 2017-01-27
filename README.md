@@ -31,12 +31,8 @@ For example: With a specified bandwidth of 10 Hz, and a step input applied, the 
 Thanks https://en.wikipedia.org/wiki/Roll-off
 
 ##API
-	// Specify a LPF based off bandWidth and sampleTime
-	LPF ( float bandWidthInHz, float sampleTimeInSec, float initialValue =  0.0 );
-
-	// Simple case where you just want a filter without worring about
-	// sample rates or bandwidths.
-	LPF ( float alpha, float initialValue =  0.0 );
+	// Specify a LPF based off bandWidth, or as fixed alpha.
+	LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
 
 	// Reset filter output to initialValue
 	void Reset ( float initialValue =  0.0 );
@@ -46,13 +42,10 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
 
 	// Get next value from the filter based on the input (current) value
 	float NextValue ( float currentValue );
-
-	// Use for AGC and other responses where the sample time changes.
-	float NextValue ( float currentValue, float sampleTimeInSec );
   
 ## Tests
 
-The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of the LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Risetime / falltime is ~ 0.35 / BANDWIDTH_HZ.  The second example plots the response of the LPF to an input containing multiple sine wave signals and 'noise'. This example also demonstrates how to cascade LPFs together to increase the filter response. 
+The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of the LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Risetime / falltime is ~ 0.35 / BANDWIDTH_HZ.  The second example plots the response of the LPF to an input containing multiple sine wave signals and 'noise'. 
 
 ## License
 
