@@ -27,6 +27,10 @@
 
 #include <Arduino.h>
 
+#define MAX_CASCADES		5		// arbitrary
+#define IS_BANDWIDTH_HZ		true
+#define	IS_ALPHA			false
+
 class LPF {
 	// Return RC low-pass filter output samples, given input samples, time interval dt, and time constant RC
 	//    α = dt / (RC + dt) where RC = 1 / (2 * π * BW)
@@ -41,28 +45,23 @@ class LPF {
 
 	public:
 
-	// Specify a LPF based off bandWidth and sampleTime
-	LPF ( float bandWidthInHz, float sampleTimeInSec, float initialValue =  0.0 );
+		// Specify a LPF based off bandWidth, or as fixed alpha.
+		LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
 
-	// Simple case where you just want a filter without worring about
-	// sample rates or bandwidths.
-	LPF ( float alpha, float initialValue =  0.0 );
+		// Reset filter output to some initialValue
+		void Reset ( double initialValue =  0.0 );
 
-	// Reset filter output to initialValue
-	void Reset ( float initialValue =  0.0 );
+		// Return last value from the filter.
+		double GetLastValue ( void );
 
-	// Return last value from the filter.
-	float GetLastValue ( void );
-
-	// Get next value from the filter based on the input (current) value
-	float NextValue ( float currentValue );
-
-	// Use for AGC and other responses where the sample time changes.
-	float NextValue ( float currentValue, float sampleTimeInSec );
+		// Get next value from the filter based on the input (current) value
+		double NextValue ( double currentValue );
 	
 	private:
-
-	float RCTime, alpha, lastValue;
+		
+		uint8_t numCascades;
+		double RCTime, alpha, * lastValue;
+		unsigned long lastTimeInUsec;
 };
 
 #endif

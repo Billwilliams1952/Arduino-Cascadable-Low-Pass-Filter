@@ -39,6 +39,7 @@
  * OR: 	NextValue = LastValue + alpha * (CurrentValue - LastValue)
  * 		LastValue = NextValue
  *
+
  * The new output will approach the input in ~ 5 RCTime constants.
  * For example: With a specified bandwidth of 10 Hz, and a step
  * input applied, the output will settle to the step input value in
@@ -46,65 +47,87 @@
  * 
  * 10 Hz is the 3dB point of the filter, where input changes at a
  * rate greater than this frequency begins to roll off at 20 dB per
- * decade (10 Hz, 100Hz, 1000Hz,...) or 6dB per octave (10Hz, 20Hz, 40Hz, 80Hz...)
+ * decade (10 Hz, 100Hz, 1000Hz,...) or 6dB per octave (10Hz, 20Hz, 40Hz,
+ * 80Hz...). 
  *
  * initialValue defaults to 0 if not provided.
+ * 
+ * cascades is the number of cascaded LPFs, ranging from 1 (default) to
+ * MAX_CASCADES. Each LPF cascades its output to the input of the next LPF
+ * in the cascade. The effect is the same as one LPF buffered by an OP-AMP
+ * feeding another LPF .... etc.
  *
  */
-LPF :: LPF ( float bandWidthInHz, float sampleTimeInSec, float initialValue ) {
-	if ( (bandWidthInHz <= 0) || (sampleTimeInSec <= 0) ) {
+LPF :: LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades ) {
+	if ( isInBandwidth ) {
+		if ( bandWidthInHzOrAlpha <= 0 ) {
+			alpha = 1.0;
+			RCTime = 0.0;
+		} else {
+			alpha = 0.0;
+			RCTime = 1.0 / (TWO_PI * bandWidthInHzOrAlpha);
+		}
+	} else {
+		alpha = ((bandWidthInHzOrAlpha > 0) && (bandWidthInHzOrAlpha <= 1.0)) ?
+			bandWidthInHzOrAlpha : 1.0;
 		RCTime = 0.0;
-		alpha = 1.0;
 	}
-	else {
-		RCTime = 1.0 / (TWO_PI * bandWidthInHz);
-		alpha = sampleTimeInSec / (RCTime + sampleTimeInSec);
-	}
-	lastValue = initialValue;
+
+	numCascades = constrain(cascades,1,MAX_CASCADES);
+	/*
+	 * TODO: In the unlikely event of a malloc fail..... what then?
+	 * Could just say lastValue = &SomeFloatValue;
+	 */
+	lastValue = (double *) malloc(cascades * sizeof(double));
+	Reset(0.0);
 }
 
 /*
- * Simple case where you just want a filter without worring about
- * sample rates or bandwidths.
- * initialValue defaults to 0 if not provided.
+ * Reset filter to initialValue (default is 0 if not provided)
  */
-LPF :: LPF ( float alpha, float initialValue ) {
-	this->alpha = ((alpha > 0) && (alpha < 1.0)) ? alpha : 1.0;
-	RCTime = 0.0;
-	lastValue = initialValue;
-}
-
-/*
- * Reset filter lastValue to initialValue (default is 0 if not provided)
- */
-void Reset ( float initialValue ) {
-	lastValue = initialValue;
+void LPF :: Reset ( double initialValue ) {
+	for ( uint8_t i = 0; i < numCascades; i++ )
+		lastValue[i] = initialValue;
+	lastTimeInUsec = micros();
 }
 
 /*
  * Return last value from the filter.
  */
-float LPF :: GetLastValue ( void ) {
-	return lastValue;
+double LPF :: GetLastValue ( void ) {
+	return lastValue[numCascades-1];
 }
 
 /*
  * Get next value from the filter based on the input (current) value
+ * If this is a filter that uses bandwidth (i.e. RCTime != 0.0), then we
+ * need to know the sample time from the last reading in order to
+ * calculate the new alpha for the filter.
+ * If this filter is just based on a fixed alpha, then just calculate a
+ * new output, the sample time is irrelavent.
  */
-float LPF :: NextValue ( float currentValue ) {
-	lastValue = lastValue + alpha * (currentValue - lastValue);
-	return lastValue;
+double LPF :: NextValue ( double currentValue ) {
+	double val;
+	float sampleTimeInSec;
+	
+	if ( RCTime != 0.0 ) {
+		sampleTimeInSec = ((float)micros() - (float)lastTimeInUsec) * 1.0e-6;
+		if ( sampleTimeInSec < 0.0 ) {		// counter overrun
+			lastTimeInUsec = micros();
+			return lastValue[numCascades - 1];
+		}
+		alpha = sampleTimeInSec / (RCTime + sampleTimeInSec);
+	}
+
+	for ( uint8_t i = 0; i < numCascades; i++ ) {
+		if ( i == 0 )	val = currentValue;
+		else            val = lastValue[i-1];
+		lastValue[i] = lastValue[i] + alpha * (val - lastValue[i]);
+	}
+	lastTimeInUsec = micros();
+	return lastValue[numCascades - 1];
 }
 
-/*
- *	Use for AGC and other responses where the sample time changes.
- */
-float LPF :: NextValue ( float currentValue, float sampleTimeInSec ) {
-	if ( RCTime == 0.0 )		// Declared using alpha - no sampleTime
-		return NextValue(currentValue);
-	alpha = sampleTimeInSec / (RCTime + sampleTimeInSec);
-	lastValue = lastValue + alpha * (currentValue - lastValue);
-	return lastValue;
-}
+
 
 
