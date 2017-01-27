@@ -23,23 +23,29 @@
 
 #include <Lpf.h>
 
-#define PULSE_OUT         10          // Your arduino pin
-#define ANALOG_IN         A0          // Your arduino pin
+#define PULSE_OUT             10      // Your arduino pin
+#define ANALOG_IN             A0      // Your arduino pin
 
-#define BANDWIDTH_HZ          1       // 3-dB bandwidth of the filter
-#define SAMPLE_TIME_SEC       10e-3   // Expected sample time
+#define BANDWIDTH_HZ          1.0     // 3-dB bandwidth of the filter
+#define SAMPLE_TIME_SEC       20e-3   // How often are we upodating the loop?
+                                      // The LPF tracks the sample time internally
 #define SIGNAL_FREQUENCY_HZ   0.3     // Our test input signal frequency
 
 /*
- * Create a Low Pass Filter - it's default initialization is 0.0.  To change it, 
+ * Create a Low Pass Filter - it's default cascade is 1 and initialization is 0.0.  To change it, 
  * call Reset with an initialValue.
  */
-LPF lpf(BANDWIDTH_HZ,SAMPLE_TIME_SEC);      
+LPF lpf(BANDWIDTH_HZ,IS_BANDWIDTH_HZ);      
+
 /*
- * If you concatentate LPF's with the same parameters, you increase its rolloff by another
- * 20dB / decade or 6 dB per octave
+ * Create a three cascade LPF
  */
-LPF lpf2(BANDWIDTH_HZ,SAMPLE_TIME_SEC);           
+LPF lpf3(BANDWIDTH_HZ,IS_BANDWIDTH_HZ,3);
+
+/*
+ * Create a LPF with a fixed alpha
+ */
+LPF lpfFixedAlpha(0.1,IS_ALPHA);
 
 void setup() {
     Serial.begin(115200);
@@ -59,9 +65,9 @@ void loop() {
      * Uncomment the test you wish to visualize
      */
      
-    PlotRisetimeResponse();
+    // PlotRisetimeResponse();
 
-    //PlotSineWaveWithNoiseResponse();
+    PlotSineWaveWithNoiseResponse();
 
     delay(SAMPLE_TIME_SEC*1000);
 }
@@ -89,14 +95,12 @@ void PlotSineWaveWithNoiseResponse ( void ) {
      * Plot output of first LPF. The amplitude of frequencies above BANDWIDTH_HZ
      * begin to roll off at 20dB per decade or 6 dB per octave
      */
-    float outlpf1 = lpf.NextValue(inputSignal);
-    Serial.print(outlpf1);
+    Serial.print(lpf.NextValue(inputSignal));
     Serial.print(" ");
     /* 
-     * Plot output of second LPF. The amplitude of frequencies above BANDWIDTH_HZ
-     * begin to roll off at 40dB per decade or 12 dB per octave
+     * Plot output of the three cascade LPF.
      */
-    Serial.println(lpf2.NextValue(outlpf1));
+    Serial.println(lpf3.NextValue(inputSignal));
 }
 
 /*
@@ -124,8 +128,12 @@ void PlotRisetimeResponse ( void ) {
      * Plot impulse response output of LPF (it's risetime / falltime).
      * This is equal to ~ 0.35 / BANDWIDTH_HZ.
      */
-    float val = lpf.NextValue(lpfInput);
-    Serial.println(val);
+    Serial.print(lpf.NextValue(lpfInput));
+    Serial.print(" ");
+    /*
+     * Plot impulse response output of three cascade LPF (it's risetime / falltime).
+     */        
+    Serial.println(lpf3.NextValue(lpfInput));
 }
 
 
