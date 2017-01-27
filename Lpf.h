@@ -45,7 +45,7 @@ class LPF {
 
 	public:
 
-		// Specify a LPF based off bandWidth, or as fixed alpha.
+		// Specify a LPF based off bandwidth, or as fixed alpha (α).
 		LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
 
 		// Reset filter output to some initialValue
@@ -56,6 +56,9 @@ class LPF {
 
 		// Get next value from the filter based on the input (current) value
 		double NextValue ( double currentValue );
+
+		// Return the gain of the filter at a particular frequency
+		double GetFilterGainInDB ( double frequencyInHz );
 	
 	private:
 		

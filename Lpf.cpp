@@ -123,6 +123,21 @@ double LPF :: NextValue ( double currentValue ) {
 	return lastValue[numCascades - 1];
 }
 
+/*
+ * Return the gain of the filter at a particular frequency
+ */
+double LPF :: GetFilterGainInDB ( double frequencyInHz ) {
+	if ( RCTime == 0.0 ) return 0; // not frequency dependent, ignore
 
+	// Sanity check, no 0.0 Hz allowed!
+	frequencyInHz = frequencyInHz > 0.0 ? frequencyInHz : 1.0e-6;
+	
+	double ratio = frequencyInHz / bandWidthInHzOrAlpha;
+	double gain = 1.0 / sqrt((ratio*ratio + 1));
+	for ( int i=0; i < numCascades; i++) {
+		gain *= gain;
+	}
+	return 20.0 * log(gain);
+}
 
 
