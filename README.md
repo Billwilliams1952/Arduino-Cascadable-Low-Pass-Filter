@@ -22,7 +22,7 @@ Refactoring
 		y[i] = y[i-1] + α * (x[i] - y[i-1])
 
 Rewriting
-https://cloud.githubusercontent.com/assets/3778024/22360073/39756224-e412-11e6-8182-a1a94617328c.png
+
 	NextValue = LastValue + α * (CurrentValue - LastValue)
 	LastValue = NextValue
 	
@@ -49,11 +49,11 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
   
 ## Tests
 
-The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of the LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Risetime / falltime is ~ 0.35 / BANDWIDTH_HZ.  
+The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the BANDWIDTH_HZ parameter. Note that risetime / falltime is ~ 0.35 / BANDWIDTH_HZ for a single cascade LPF.  
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22360065/2d42c230-e412-11e6-9cef-5dc5463204e3.png)
 
-The second example plots the response of the LPF to an input containing multiple sine wave signals and 'noise'. 
+The second example plots the response of a single LPF and a three cascade LPF to an input containing multiple sine wave signals and 'noise'. 
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22360073/39756224-e412-11e6-8182-a1a94617328c.png)
 
