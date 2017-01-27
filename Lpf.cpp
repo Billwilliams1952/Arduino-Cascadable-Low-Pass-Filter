@@ -60,13 +60,9 @@
  */
 LPF :: LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades ) {
 	if ( isInBandwidth ) {
-		if ( bandWidthInHzOrAlpha <= 0 ) {
-			alpha = 0.0;
-			RCTime = 0.0;
-		} else {
-			alpha = 0.0;
-			RCTime = 1.0 / (TWO_PI * bandWidthInHzOrAlpha);
-		}
+		alpha = 0.0;
+		RCTime = bandWidthInHzOrAlpha <= 0 ?
+					0.0 : 1.0 / (TWO_PI * bandWidthInHzOrAlpha);
 	} else {
 		alpha = constrain(bandWidthInHzOrAlpha,0.0,1.0); 
 		RCTime = 0.0;
