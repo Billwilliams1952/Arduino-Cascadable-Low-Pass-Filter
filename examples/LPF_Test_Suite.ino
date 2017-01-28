@@ -31,6 +31,8 @@
                                       // The LPF tracks the sample time internally
 #define SIGNAL_FREQUENCY_HZ   0.3     // Our test input signal frequency
 
+#define DO_PLOTTING                   // If not defined, test other functions in LPF
+
 /*
  * Create a Low Pass Filter - it's default cascade is 1 and initialization is 0.0.  To change it, 
  * call Reset with an initialValue.
@@ -55,6 +57,24 @@ void setup() {
     pinMode(PULSE_OUT,OUTPUT);
     digitalWrite(PULSE_OUT,HIGH);
     pinMode(ANALOG_IN,INPUT);
+
+#ifndef DO_PLOTTING
+    /*
+     * Test some of the functions
+     */
+
+    /* Should return ~ -20 dB */
+    Serial.println(lpf.GetFilterGainInDB(BANDWIDTH_HZ * 10),5);
+    /* Should return ~ -9 dB */
+    Serial.println(lpf3.GetFilterGainInDB(BANDWIDTH_HZ),5);
+
+    /* Should return ~ BANDWIDTH_HZ * 10 */
+    Serial.println(lpf.GetFrequencyForGain(-20.0),5);  
+    /* Should return ~ BANDWIDTH_HZ */
+    Serial.println(lpf3.GetFrequencyForGain(-9.0),5);
+
+    while ( 1 );    // Nothing to see here.
+#endif
 }
 
 void loop() {
@@ -76,7 +96,8 @@ void loop() {
  * Plot filter response to ac signals using serial plotter
  */
 void PlotSineWaveWithNoiseResponse ( void ) {
-  
+
+    static unsigned long timer = millis();
     static unsigned int dt = 0;
     float inputSignal, twoPiDt = 2.0 * PI * dt * SAMPLE_TIME_SEC;
 
@@ -86,6 +107,14 @@ void PlotSineWaveWithNoiseResponse ( void ) {
                   1.0 * sin(BANDWIDTH_HZ * 20 * twoPiDt) +
                   /* some 'noise' */ (float)random(-100, 100) / 100.0;
     dt++;
+
+    /*
+     * Demonstrate use of Reset()
+     */
+    if ( (millis() - timer) >= 5000 ) {
+        lpf3.Reset(1.0);   // Reset lpf3 to an initalValue of 1.0
+        timer = millis();
+    }
 
     /* 
      *  Plot input signal
