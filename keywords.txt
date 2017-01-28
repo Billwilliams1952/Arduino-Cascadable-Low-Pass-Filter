@@ -15,6 +15,7 @@ Reset	KEYWORD2
 GetLastValue	KEYWORD2
 NextValue	KEYWORD2
 GetFilterGainInDB	KEYWORD2
+GetFrequencyForGain	KEYWORD2
 
 #######################################
 # Literals

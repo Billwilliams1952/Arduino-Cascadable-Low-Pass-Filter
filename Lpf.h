@@ -32,16 +32,6 @@
 #define	IS_ALPHA			false
 
 class LPF {
-	// Return RC low-pass filter output samples, given input samples, time interval dt, and time constant RC
-	//    α = dt / (RC + dt) where RC = 1 / (2 * π * BW)
-	//    y[0] := x[0]
-	//    for i from 1 to n
-	//       y[i] = α * x[i] + (1-α) * y[i-1]
-	//    return y
-
-	// Or refactoring
-	//    for i from 1 to n
-	//       y[i] = y[i-1] + α * (x[i] - y[i-1])
 
 	public:
 
@@ -57,8 +47,11 @@ class LPF {
 		// Get next value from the filter based on the input (current) value
 		double NextValue ( double currentValue );
 
-		// Return the gain of the filter at a particular frequency
+		// Return the gain of the filter at the requested frequency
 		double GetFilterGainInDB ( double frequencyInHz );
+
+		// Return the required signal frequency that develops the requested output gain
+		double GetFrequencyForGain ( double gainInDB );
 	
 	private:
 		

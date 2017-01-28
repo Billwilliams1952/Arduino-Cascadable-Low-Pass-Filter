@@ -124,20 +124,29 @@ double LPF :: NextValue ( double currentValue ) {
 }
 
 /*
- * Return the gain of the filter at a particular frequency
+ * Return the gain of the filter at the requested frequency
  */
 double LPF :: GetFilterGainInDB ( double frequencyInHz ) {
-	if ( RCTime == 0.0 ) return 0; // not frequency dependent, ignore
+	 // not frequency dependent or bad frequency - ignore
+	if ( RCTime == 0.0 || frequencyInHz <= 0.0 ) return 0;
 
-	// Sanity check, no 0.0 Hz allowed!
-	frequencyInHz = frequencyInHz > 0.0 ? frequencyInHz : 1.0e-6;
-	
-	double ratio = frequencyInHz / bandWidthInHzOrAlpha;
+	double ratio = frequencyInHz * TWO_PI * RCTime;
 	double gain = 1.0 / sqrt((ratio*ratio + 1));
-	for ( int i=0; i < numCascades; i++) {
-		gain *= gain;
-	}
-	return 20.0 * log(gain);
+	//for ( int i=1; i < numCascades; i++) {
+	//	gain *= gain;
+	//}
+	return 20.0 * log10(pow(gain,numCascades));
+}
+
+/*
+ * Return the required signal frequency that develops the requested output gain
+ */
+double LPF :: GetFrequencyForGain ( double gainInDB ) {
+	// not frequency dependent or positive gain - ignore
+	if ( RCTime == 0.0 || gainInDB > 0.0 ) return 0; 
+
+	float val = 1.0 / exp( log( pow(10.0,gainInDB/20.0) ) / numCascades );
+	return (1.0 / (TWO_PI * RCTime)) * sqrt((val * val - 1.0));
 }
 
 
