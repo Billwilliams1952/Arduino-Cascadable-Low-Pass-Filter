@@ -32,8 +32,7 @@ For example: With a specified bandwidth of 10 Hz, and a step input applied, the 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/21202816/901c5764-c215-11e6-9895-a39fdd9bd3f0.png)
 Thanks https://en.wikipedia.org/wiki/Roll-off
 
-When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz. The gain at the output of the last cascade for any input frequency can be calculated by the equation: 
-![alt tag](https://cloud.githubusercontent.com/assets/3778024/22393882/7bd96862-e4d6-11e6-8053-05b89cf9978e.png)
+When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz.
 
 ##API
 
@@ -49,10 +48,16 @@ When you cascade the LPF, the rolloff basically doubles for each added stage.  U
 	// Get next value from the filter based on the input (current) value
 	float NextValue ( float currentValue );
 	
-	// Return the gain of the filter at the requested frequency
+	// Return the gain of the filter at the requested frequency using the formula
+	
+![alt tag](https://cloud.githubusercontent.com/assets/3778024/22393882/7bd96862-e4d6-11e6-8053-05b89cf9978e.png)
+
 	double GetFilterGainInDB ( double frequencyInHz );
 
-	// Return the required signal frequency that develops the requested output gain
+	// Return the required signal frequency that develops the requested output gain using the formula
+	
+![alt tag](https://cloud.githubusercontent.com/assets/3778024/22394000/b756d7f0-e4d9-11e6-8301-91245d2ee4c5.png)
+
 	double GetFrequencyForGain ( double gainInDB );
   
 ## Tests
