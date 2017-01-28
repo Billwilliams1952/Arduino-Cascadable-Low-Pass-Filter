@@ -2,7 +2,7 @@
 
 Simple low pass filter (LPF) based on sampling theory.  
 
-This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional 'cascades' parameter, increasing the rolloff at the output.
+This library allows the user to specify the filter bandwidth in hertz (Hz) of the LPF. The LPF will then calculate the response based on the sample time between calls.  Multiple LPFs may be cascaded together using the optional *cascades* parameter, increasing the rolloff at the output.
 
 If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 1.0 is no filtering (follow the input), 0.0 is max filtering (the output stays at the initial value).
 
@@ -57,11 +57,11 @@ When you cascade the LPF, the rolloff basically doubles for each added stage.  U
   
 ## Tests
 
-The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the *bandWidthInHzOrAlpha* parameter. Note that risetime or falltime is ~ 0.35 / bandWidthInHzOrAlpha for a single cascade LPF. 
+The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the *bandWidthInHzOrAlpha* parameter. Note that risetime or falltime is ~ 0.35 / *bandWidthInHzOrAlpha* for a single cascade LPF. 
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22360065/2d42c230-e412-11e6-9cef-5dc5463204e3.png)
 
-The second example plots the response of a single LPF and a three cascade LPF to an input containing multiple sine wave signals and 'noise'. The actual test suite now resets the three cascade LPF output to 1.0 every five seconds as a demonstration of the Reset function.
+The second example plots the response of a single LPF and a three cascade LPF to an input containing multiple sine wave signals and 'noise'. The actual test suite now resets the three cascade LPF output to 1.0 every five seconds as a demonstration of the **Reset** function.
 
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22360073/39756224-e412-11e6-8182-a1a94617328c.png)
 
