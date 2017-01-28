@@ -33,7 +33,7 @@ For example: With a specified bandwidth of 10 Hz, and a step input applied, the 
 Thanks https://en.wikipedia.org/wiki/Roll-off
 
 When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz. The gain at the output of the last cascade for any input frequency can be calculated by the equation: 
-![alt tag](https://cloud.githubusercontent.com/assets/3778024/22388677/4d7d7082-e4a7-11e6-825d-a0b118c8dc41.png)
+![alt tag](https://cloud.githubusercontent.com/assets/3778024/22393882/7bd96862-e4d6-11e6-8053-05b89cf9978e.png)
 
 ##API
 
