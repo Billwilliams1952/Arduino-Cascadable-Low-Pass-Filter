@@ -56,7 +56,7 @@ When you cascade the LPF, the rolloff basically doubles for each added stage.  U
 
 	// Return the required signal frequency that develops the requested output gain using the formula
 	
-![alt tag](https://cloud.githubusercontent.com/assets/3778024/22394000/b756d7f0-e4d9-11e6-8301-91245d2ee4c5.png)
+![alt tag](https://cloud.githubusercontent.com/assets/3778024/22394108/22209812-e4dc-11e6-840c-584b04011e70.png)
 
 	double GetFrequencyForGain ( double gainInDB );
   
