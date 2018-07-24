@@ -35,31 +35,31 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
 When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz.
 
 ## API
+```C++
+// Specify a LPF based off bandWidth, or as fixed alpha.
+LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
 
-	// Specify a LPF based off bandWidth, or as fixed alpha.
-	LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
+// Reset filter output to initialValue
+void Reset ( float initialValue =  0.0 );
 
-	// Reset filter output to initialValue
-	void Reset ( float initialValue =  0.0 );
+// Return last value from the filter.
+float GetLastValue ( void );
 
-	// Return last value from the filter.
-	float GetLastValue ( void );
-
-	// Get next value from the filter based on the input (current) value
-	float NextValue ( float currentValue );
+// Get next value from the filter based on the input (current) value
+float NextValue ( float currentValue );
 	
-	// Return the gain of the filter at the requested frequency using the formula
-	
+// Return the gain of the filter at the requested frequency using the formula
+```	
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22393882/7bd96862-e4d6-11e6-8053-05b89cf9978e.png)
+```C++
+double GetFilterGainInDB ( double frequencyInHz );
 
-	double GetFilterGainInDB ( double frequencyInHz );
-
-	// Return the required signal frequency that develops the requested output gain using the formula
-	
+// Return the required signal frequency that develops the requested output gain using the formula
+```	
 ![alt tag](https://cloud.githubusercontent.com/assets/3778024/22394159/ad50fb06-e4dd-11e6-9b22-96d9da1c1ea3.png)
-
-	double GetFrequencyForGain ( double gainInDB );
-  
+```C++
+double GetFrequencyForGain ( double gainInDB );
+```  
 ## Tests
 
 The example sketch uses the Serial Plotter functionality to display two examples. The first example plots the response of a single LPF and a three cascade LPF to a pulse input. This demonstrates the impulse response (risetime/falltime) of the LPF based on the *bandWidthInHzOrAlpha* parameter. Note that risetime or falltime is ~ 0.35 / *bandWidthInHzOrAlpha* for a single cascade LPF. 
