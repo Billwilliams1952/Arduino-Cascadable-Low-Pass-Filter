@@ -6,7 +6,7 @@ This library allows the user to specify the filter bandwidth in hertz (Hz) of th
 
 If sample time is not an issue, then the LPF can be created using a simple alpha value which ranges from 0.0 to 1.0. A value of 1.0 is no filtering (follow the input), 0.0 is max filtering (the output stays at the initial value).
 
-##Synopsis
+## Synopsis
 
 Return RC low-pass filter output samples, given input samples, time interval dt, and time constant RC. From sampling theory:
 
@@ -34,7 +34,7 @@ Thanks https://en.wikipedia.org/wiki/Roll-off
 
 When you cascade the LPF, the rolloff basically doubles for each added stage.  Using the previous example, a two cascade LPF will be 6dB down at 10Hz, and 40 dB down at 100 Hz -- a three cascade LPF will be 9dB down at 10Hz, and 60 dB down at 100 Hz.
 
-##API
+## API
 
 	// Specify a LPF based off bandWidth, or as fixed alpha.
 	LPF ( double bandWidthInHzOrAlpha, bool isInBandwidth, uint8_t cascades = 1 );
