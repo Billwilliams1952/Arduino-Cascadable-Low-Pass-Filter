@@ -99,7 +99,7 @@ double LPF :: GetLastValue ( void ) {
  * need to know the sample time from the last reading in order to
  * calculate the new alpha for the filter.
  * If this filter is just based on a fixed alpha, then just calculate a
- * new output, the sample time is irrelavent.
+ * new output, the sample time is irrelevant.
  */
 double LPF :: NextValue ( double currentValue ) {
 	double val;
